@@ -34,8 +34,10 @@ for version in $VERSIONS; do
             ;;
     esac
 
-    rm  -rf "$version"
-    git rm -r "$version"
+    if test -d "$version"; then
+        rm -rf "$version"
+        git rm -r "$version" || : # might not exist, yet
+    fi
 
     no_symlink=$(readlink -f "upstream/$version")
     cp -r "$no_symlink" "$version"
